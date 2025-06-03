@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Navbar with Dropdown & Dark Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">STEMBridge Learning</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#">Home</a>
+      <div class="dropdown">
+        <a href="#">Services</a>
+        <div class="dropdown-content">
+          <a href="#">Web Design</a>
+          <a href="#">App Development</a>
+          <a href="#">SEO</a>
+        </div>
+      </div>
+      <a href="#">About Us</a>
+      <a href="#">Pricing</a>
+      <a href="#">Testimonials</a>
+      <a href="#">Library</a>
+      <a href="#">Contact</a>
+    </div>
+    <button class="toggle-theme" onclick="toggleTheme()">Toggle Mode</button>
+  </nav> 
+  
+  <!-- Home Section -->
+<section class="home-section">
+    <div class="carousel">
+      <div class="slide active" style="background-image: url('bg-images/img3.jpg');">
+        <div class="overlay">
+          <div class="home-content">
+            <h1>Welcome to STEMBridge Learning</h1>
+            <p>Empowering young minds through fun and practical coding lessons.</p>
+            <a href="#contact" class="btn">Join a Class</a>
+          </div>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('bg-images/img2.jpg');">
+        <div class="overlay">
+          <div class="home-content">
+            <h1>Learn to Code</h1>
+            <p>Start your journey with HTML, CSS, JavaScript, and Python.</p>
+            <a href="#contact" class="btn">Start Learning</a>
+          </div>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('bg-images/img1.jpg');">
+        <div class="overlay">
+          <div class="home-content">
+            <h1>Interactive Lessons</h1>
+            <p>Our classes are designed for students aged 10 to 18.</p>
+            <a href="#contact" class="btn">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+ 
+  </style>
+  
+  <script>
+  // Carousel Script
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      if (i === index) {
+        slide.classList.add('active');
+      }
+    });
+  }
+  
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+  
+  setInterval(nextSlide, 4000); // Slide every 4 seconds
+  </script>
+
+
+
+<section id="services" class="services-section">
+    <h2>Our Services</h2>
+    <div class="services-container">
+      <div class="service-card">
+        <i class="fas fa-square-root-alt"></i>
+        <h3>Mathematics</h3>
+        <p>Interactive tutorials and personalized coaching for math learners of all levels.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-atom"></i>
+        <h3>Sciences</h3>
+        <p>Engaging lessons in Physics, Chemistry, and Biology to make science fun and understandable.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-laptop-code"></i>
+        <h3>Coding</h3>
+        <p>Beginner to advanced coding courses in JavaScript, Python, and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <div class="about-image">
+        <img src="img.jpg" alt="Learning together">
+      </div>
+      <div class="about-content">
+        <h2>About Us</h2>
+        <p>
+          We are a passionate team dedicated to empowering students through high-quality education in Mathematics, Sciences, and Coding. With years of experience, engaging teaching styles, and practical projects, we help learners grow their skills in a fun and friendly environment.
+        </p>
+        <p>
+          Our goal is to bridge the gap between theory and real-world applications — inspiring students to explore, build, and solve meaningful problems.
+        </p>
+        <a href="#contact" class="about-btn">Get In Touch</a>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="pricing" class="pricing-section">
+    <h2>Our Plans</h2>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>Basic</h3>
+        <p class="price">₦100,000/month</p>
+        <ul>
+          <li>1 Subject</li>
+          <li>2 Sessions/Week</li>
+          <li>Email Support</li>
+        </ul>
+        <button>Select Plan</button>
+      </div>
+  
+      <div class="pricing-card">
+        <h3>Standard</h3>
+        <p class="price">₦200,000/month</p>
+        <ul>
+          <li>2 Subjects</li>
+          <li>3 Sessions/Week</li>
+          <li>WhatsApp Support</li>
+        </ul>
+        <button>Select Plan</button>
+      </div>
+  
+      <div class="pricing-card featured">
+        <h3>Premium</h3>
+        <p class="price">₦300,000/month</p>
+        <ul>
+          <li>3 Subjects</li>
+          <li>5 Sessions/Week</li>
+          <li>Priority Support</li>
+        </ul>
+        <button>Select Plan</button>
+      </div>
+  
+      <div class="pricing-card">
+        <h3>Pro</h3>
+        <p class="price">400,000/month</p>
+        <ul>
+          <li>All Subjects</li>
+          <li>Unlimited Sessions</li>
+          <li>1-on-1 Mentoring</li>
+        </ul>
+        <button>Select Plan</button>
+      </div>
+    </div>
+  </section>
+  <section id="testimonials" class="testimonial-carousel-section">
+    <h2>What Our Students Say</h2>
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-item">
+          <p>"Learning math has never been this fun! The lessons are interactive and engaging."</p>
+          <h4>— Ada, Age 14</h4>
+        </div>
+        <div class="carousel-item">
+          <p>"I built my first JavaScript project thanks to the coding tutorials!"</p>
+          <h4>— Tobi, Age 17</h4>
+        </div>
+        <div class="carousel-item">
+          <p>"The science sessions helped me pass my exams with flying colors."</p>
+          <h4>— Fatima, Age 16</h4>
+        </div>
+      <div class="carousel-btn">
+      <button class="carousel-btn-prev">‹</button>
+      <button class="carousel-btn-next">›</button>
+    </div>
+
+  <script src="index.js" ></script>
+  </section>
+
+  <section id="library" style="background-color: #f2f6fc; padding: 60px 20px;">
+  <div style="max-width: 900px; margin: auto; text-align: center;">
+    <h2 style="font-size: 2rem; margin-bottom: 20px; color: #1e88e5;">📚 Digital Library</h2>
+    <p style="color: #444;">Explore resources, upload useful documents, or access external educational tools.</p>
+
+    <!-- Upload Form -->
+    <form id="uploadForm" style="margin-top: 30px; display: flex; flex-direction: column; align-items: center;">
+      <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx" style="margin-bottom: 10px;"/>
+      <button type="button" onclick="uploadFile()" style="padding: 10px 20px; background-color: #1e88e5; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Upload</button>
+    </form>
+
+    <!-- Uploaded Files List -->
+    <div id="fileList" style="margin-top: 30px; text-align: left;"></div>
+
+    <!-- External Links -->
+    <div style="margin-top: 40px;">
+      <h3 style="color: #1e88e5;">🌐 Explore More</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="https://phet.colorado.edu/" target="_blank" style="color: #0d47a1;">PhET Simulations</a></li>
+        <li><a href="https://mathigon.org" target="_blank" style="color: #0d47a1;">Mathigon – Interactive Math</a></li>
+        <li><a href="https://www.khanacademy.org" target="_blank" style="color: #0d47a1;">Khan Academy</a></li>
+        <li><a href="https://www.geogebra.org" target="_blank" style="color: #0d47a1;">GeoGebra – Math Tools</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+  <section style="background-color: #f9f9f9; padding: 60px 20px;">
+  <div style="max-width: 800px; margin: auto; text-align: center;">
+    <h2 style="font-size: 2rem; margin-bottom: 10px; color: #1e88e5;">Get In Touch</h2>
+    <p style="margin-bottom: 30px; color: #555;">Have questions or want to work with us? Drop a message!</p>
+    
+    <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+      <input type="text" placeholder="Full Name" required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+      <input type="email" placeholder="Email Address" required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+      <textarea placeholder="Your Message" required style="grid-column: span 2; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; height: 120px;"></textarea>
+      <button type="submit" style="grid-column: span 2; background-color: #1e88e5; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: background-color 0.3s ease;">
+        Send Message
+      </button>
+    </form>
+
+    <!-- Social media icons -->
+    <div style="margin-top: 30px;">
+      <a href="#" title="WhatsApp" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-whatsapp fa-lg"></i></a>
+      <a href="#" title="Telegram" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-telegram fa-lg"></i></a>
+      <a href="#" title="Instagram" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="#" title="Twitter" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-twitter fa-lg"></i></a>
+      <a href="#" title="LinkedIn" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-linkedin fa-lg"></i></a>
+      <a href="#" title="TikTok" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-tiktok fa-lg"></i></a>
+      <a href="mailto:your@email.com" title="Email" style="margin: 0 8px; color: #1e88e5;"><i class="fas fa-envelope fa-lg"></i></a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
