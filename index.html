@@ -252,144 +252,167 @@
         Send Message
       </button>
     </form>
-<section id="quiz-section" class="py-16 px-6 md:px-20 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold mb-6 text-center">Take a Quiz</h2>
-    <div class="mb-4 text-center">
-      <label for="student-name" class="block mb-2 font-semibold">Enter Your Name:</label>
-      <input type="text" id="student-name" class="px-4 py-2 rounded-md w-64 mx-auto text-black" placeholder="e.g. John Doe">
-    </div>
-    <div class="mb-6 text-center">
-      <label for="subject-select" class="block mb-2 font-semibold">Select a Subject:</label>
-      <select id="subject-select" class="px-4 py-2 rounded-md w-64 text-black">
-        <option value="math">Mathematics</option>
-        <option value="physics">Physics</option>
-        <option value="chemistry">Chemistry</option>
-        <option value="biology">Biology</option>
-        <option value="html">HTML</option>
-        <option value="css">CSS</option>
-        <option value="javascript">JavaScript</option>
-      </select>
-    </div>
-    <div id="quiz-container" class="hidden">
-      <div id="timer" class="mb-4 text-right font-semibold text-red-500">Time Left: <span id="time">60</span>s</div>
-      <div id="quiz-content">
-        <!-- Dynamic quiz questions inserted here -->
-      </div>
-      <button id="submit-quiz" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Submit Quiz</button>
-    </div>
-    <div id="quiz-result" class="hidden mt-6 text-center text-xl font-semibold"></div>
-    <div id="past-results" class="mt-10">
-      <h3 class="text-2xl font-bold mb-4">Your Past Quiz Results</h3>
-      <ul id="results-list" class="list-disc pl-6"></ul>
-    </div>
+    
+<section id="quiz-section" class="quiz-container">
+  <h2>Take a Quiz</h2>
+  <div class="quiz-form">
+    <input type="text" id="student-name" placeholder="Enter your name" required />
+    <select id="subject-select">
+      <option value="" disabled selected>Select a Subject</option>
+      <option value="math">Mathematics</option>
+      <option value="physics">Physics</option>
+      <option value="chemistry">Chemistry</option>
+      <option value="biology">Biology</option>
+      <option value="html">HTML</option>
+      <option value="css">CSS</option>
+      <option value="javascript">JavaScript</option>
+    </select>
+    <button onclick="startQuiz()">Start Quiz</button>
   </div>
-</section><script>
-  const quizData = {
-    math: [
-      {
-        question: "What is 12 × 8?",
-        options: ["96", "84", "100", "112"],
-        answer: "96",
-        hint: "Think of multiplication tables."
-      },
-      {
-        question: "Simplify: (2x + 3x) - x",
-        options: ["4x", "5x", "2x", "x"],
-        answer: "4x",
-        hint: "Combine like terms."
-      }
-    ],
-    physics: [
-      {
-        question: "What is the unit of Force?",
-        options: ["Joule", "Watt", "Newton", "Pascal"],
-        answer: "Newton",
-        hint: "Named after the scientist who defined laws of motion."
-      }
-    ]
-    // Add more for other subjects
-  };
 
-  const studentNameInput = document.getElementById("student-name");
-  const subjectSelect = document.getElementById("subject-select");
-  const quizContainer = document.getElementById("quiz-container");
-  const quizContent = document.getElementById("quiz-content");
-  const timerDisplay = document.getElementById("time");
-  const submitBtn = document.getElementById("submit-quiz");
-  const quizResult = document.getElementById("quiz-result");
-  const pastResults = document.getElementById("results-list");
+  <div id="quiz-box" class="hidden">
+    <p><strong>Time Left:</strong> <span id="timer">60</span>s</p>
+    <div id="quiz-question"></div>
+    <div id="quiz-options"></div>
+    <p id="quiz-hint"></p>
+    <button onclick="submitAnswer()">Submit Answer</button>
+  </div>
 
-  let timer, timeLeft = 60;
-  let currentAnswers = [];
+  <div id="quiz-result" class="hidden">
+    <h3>Quiz Completed!</h3>
+    <p id="quiz-score"></p>
+  </div>
 
-  subjectSelect.addEventListener("change", () => {
-    const subject = subjectSelect.value;
-    const studentName = studentNameInput.value.trim();
-    if (!studentName) {
-      alert("Please enter your name to proceed.");
-      return;
+  <div id="past-results">
+    <h3>Your Past Quiz Results</h3>
+    <ul id="results-list"></ul>
+  </div>
+
+  <script>
+
+    const quizData = {
+  math: [
+    {
+      question: "What is 2 + 2?",
+      options: ["3", "4", "5", "6"],
+      answer: "4",
+      hint: "It's an even number."
+    },
+    {
+      question: "What is the square root of 9?",
+      options: ["1", "2", "3", "4"],
+      answer: "3",
+      hint: "Think of 3 × 3."
     }
+  ],
+  physics: [
+    {
+      question: "What is the SI unit of force?",
+      options: ["Newton", "Joule", "Watt", "Pascal"],
+      answer: "Newton",
+      hint: "Named after a famous scientist."
+    }
+  ]
+};
 
-    renderQuiz(subject);
-    quizContainer.classList.remove("hidden");
-    quizResult.classList.add("hidden");
-    timeLeft = 60;
-    timerDisplay.textContent = timeLeft;
-    clearInterval(timer);
-    timer = setInterval(() => {
-      timeLeft--;
-      timerDisplay.textContent = timeLeft;
-      if (timeLeft === 0) {
-        clearInterval(timer);
-        submitQuiz();
-      }
-    }, 1000);
+let currentQuiz = [];
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+
+function startQuiz() {
+  const name = document.getElementById("student-name").value;
+  const subject = document.getElementById("subject-select").value;
+  if (!name || !subject) return alert("Please enter your name and select a subject.");
+
+  currentQuiz = quizData[subject];
+  currentQuestion = 0;
+  score = 0;
+  timeLeft = 60;
+
+  document.getElementById("quiz-box").classList.remove("hidden");
+  document.getElementById("quiz-result").classList.add("hidden");
+  loadQuestion();
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      endQuiz(name, subject);
+    }
+  }, 1000);
+}
+
+function loadQuestion() {
+  const q = currentQuiz[currentQuestion];
+  document.getElementById("quiz-question").textContent = q.question;
+  document.getElementById("quiz-hint").textContent = Hint: ${q.hint};
+  document.getElementById("quiz-options").innerHTML = "";
+
+  q.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => selectOption(btn, option);
+    document.getElementById("quiz-options").appendChild(btn);
   });
+}
 
-  function renderQuiz(subject) {
-    const data = quizData[subject];
-    quizContent.innerHTML = "";
-    currentAnswers = [];
+let selected = null;
 
-    data.forEach((q, i) => {
-      const qBox = document.createElement("div");
-      qBox.classList.add("mb-6", "p-4", "rounded-md", "shadow", "bg-white", "dark:bg-gray-800");
-      qBox.innerHTML = `
-        <p class="font-bold mb-2">${i + 1}. ${q.question}</p>
-        ${q.options.map(opt => `
-          <label class="block">
-            <input type="radio" name="q${i}" value="${opt}" class="mr-2">
-            ${opt}
-          </label>`).join('')}
-        <p class="text-sm italic text-blue-600 mt-1">Hint: ${q.hint}</p>
-      `;
-      quizContent.appendChild(qBox);
-      currentAnswers.push(q.answer);
-    });
-  }
+function selectOption(button, option) {
+  document.querySelectorAll("#quiz-options button").forEach(btn => btn.style.background = "");
+  button.style.background = "#90cdf4";
+  selected = option;
+}
 
-  submitBtn.addEventListener("click", submitQuiz);
+function submitAnswer() {
+  if (!selected) return alert("Please select an answer.");
 
-  function submitQuiz() {
+  if (selected === currentQuiz[currentQuestion].answer) score++;
+  selected = null;
+  currentQuestion++;
+
+  if (currentQuestion < currentQuiz.length) {
+    loadQuestion();
+  } else {
     clearInterval(timer);
-    const selectedAnswers = Array.from(document.querySelectorAll("input[type=radio]:checked"))
-                                .map(input => input.value);
-    let score = 0;
-    currentAnswers.forEach((ans, i) => {
-      if (selectedAnswers[i] === ans) score++;
-    });
-    const student = studentNameInput.value.trim();
-    const subject = subjectSelect.value;
-    const resultText = ${student}, you scored ${score} out of ${currentAnswers.length} in ${subject}.;
-    quizResult.textContent = resultText;
-    quizResult.classList.remove("hidden");
-
-    const li = document.createElement("li");
-    li.textContent = resultText;
-    pastResults.appendChild(li);
+    const name = document.getElementById("student-name").value;
+    const subject = document.getElementById("subject-select").value;
+    endQuiz(name, subject);
   }
-</script>
+}
+
+function endQuiz(name, subject) {
+  document.getElementById("quiz-box").classList.add("hidden");
+  document.getElementById("quiz-result").classList.remove("hidden");
+
+  const resultText = ${name}, your score in ${subject.toUpperCase()} is ${score}/${currentQuiz.length};
+  document.getElementById("quiz-score").textContent = resultText;
+
+  // Save results
+  const pastResults = JSON.parse(localStorage.getItem("quizResults") || "[]");
+  pastResults.push(resultText);
+  localStorage.setItem("quizResults", JSON.stringify(pastResults));
+  showPastResults();
+}
+
+function showPastResults() {
+  const list = document.getElementById("results-list");
+  list.innerHTML = "";
+  const results = JSON.parse(localStorage.getItem("quizResults") || "[]");
+  results.forEach(r => {
+    const li = document.createElement("li");
+    li.textContent = r;
+    list.appendChild(li);
+  });
+}
+
+// Load past results on page load
+document.addEventListener("DOMContentLoaded", showPastResults);
+  </script>
+</section>
     <!-- Social media icons -->
     <div style="margin-top: 30px;">
       <a href="#" title="WhatsApp" style="margin: 0 8px; color: #1e88e5;"><i class="fab fa-whatsapp fa-lg"></i></a>
